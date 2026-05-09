@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="login-box">
+    <h1 class="text-2xl">
+      {{ 'DETAILS_OF_PLANIFICATION' | translate }} 
+    </h1>
+    
+    <!-- Using safe navigation operator ?. -->
+    <label>{{ "EMPLOYEES_NOT_ACTIVE_FOR_PLANIFICATION" | translate }}: </label>
+    <div class="input-group">
+      <input class="w-full p-2 border-2 border-gray-600 rounded-lg bg-gray-300 text-black" 
+             readonly 
+             [value]="currentPlanification?.emplyeesNotActifForPlanification || 'NA'">
+    </div>
+
+    <label>{{ "SUCCESSFULLY_SAVED" | translate }}: </label>
+    <div class="input-group">
+      <input class="w-full p-2 border-2 border-gray-600 rounded-lg bg-gray-300 text-black" 
+             readonly 
+             [value]="currentPlanification?.successSaved || 'NA'">
+    </div>
+
+    <label>{{ "NON_EXISTENT_EMPLOYEES" | translate }}: </label>
+    <div class="input-group">
+      <input class="w-full p-2 border-2 border-gray-600 rounded-lg bg-gray-300 text-black" 
+             readonly 
+             [value]="currentPlanification?.nonExistentEmployees || 'NA'">
+    </div>
+
+    <label>{{ "INVALID_DAYS" | translate }}: </label>
+    <div class="input-group">
+      <input class="w-full p-2 border-2 border-gray-600 rounded-lg bg-gray-300 text-black" 
+             readonly 
+             [value]="currentPlanification?.invalidDays || 'NA'">
+    </div>
+
+    <div *ngIf="!currentPlanification" class="text-red-500">
+      {{ "NO_PLANIFICATION_DATA" | translate }}
+    </div>
+  </div>
+</div>

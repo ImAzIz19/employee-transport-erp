@@ -1,0 +1,39 @@
+<form #verificationForm="ngForm" (ngSubmit)="verifyCode(verificationForm)">
+    <div class="w-full flex justify-center">
+      <input
+        [(ngModel)]="verificationCode"
+        name="verificationCode"
+        type="text"
+        class="login-input-style"
+        placeholder="{{'VER-CODE' | translate}}"
+        required
+        minlength="6"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        #verificationCodeField="ngModel"
+        [ngClass]="{
+          'input-error': verificationCodeField.invalid && verificationCodeField.touched,
+          'input-valid': verificationCodeField.valid && verificationCodeField.touched,
+          'border-gray-300': !verificationCodeField.touched
+        }"
+        (input)="verifyCodeFieldChange($event)"
+      >
+    </div>
+    <div *ngIf="verificationCodeField.invalid && verificationCodeField.touched" class="text-red-500 text-2xl mt-2">
+      <p *ngIf="verificationCodeField.errors?.['required']">Verification code is required.</p>
+      <p *ngIf="verificationCodeField.errors?.['minlength'] || verificationCodeField.errors?.['maxlength']">
+        Verification code must be exactly 6 characters.
+      </p>
+      <p *ngIf="verificationCodeField.errors?.['pattern']">
+        Verification code must contain only numbers.
+      </p>
+    </div>
+    <div class="w-full flex justify-center mt-4">
+      <button
+        type="submit"
+        [disabled]="verificationForm.invalid"
+        class="w-full border-2 bg-accentOrange rounded-2xl py-2 mx-2 text-white text-xl lg:text-2xl md:h-16 font-normal hover:bg-accentLightBlue">
+        {{'VER-CODE-BTN' | translate}}
+      </button>
+    </div>
+  </form>

@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="right-section">
+      <!-- Error Notification -->
+      @if (errorMessage) {
+        <div class="error-notification">
+          <span>{{ errorMessage }}</span>
+          <button (click)="errorMessage = ''">✕</button>
+        </div>
+      }
+  
+      <div class="login-box">
+        <h1 class="header">{{ 'PLANNING_MANAGEMENT' | translate }}</h1>
+        <div class="button-container">
+          <!-- Historique Recap Button -->
+          <button 
+            type="button" 
+            class="btn-add blue-btn" 
+            (click)="openHistoriqueRecap()"
+          >
+            {{ 'HISTORY_RECAP' | translate }}
+          </button>
+  
+          <!-- Planning Download Button -->
+          <button 
+            type="button" 
+            class="btn-add"
+            (click)="openPlanningDownload()"
+            [disabled]="isLoading"
+          >
+            @if (isLoading) {
+              <span>{{ 'LOADING' | translate }}...</span>
+            } @else {
+              {{ 'PLANNING_DOWNLOAD' | translate }}
+            }
+          </button>
+  
+          <!-- Dashboard Button -->
+          <button 
+            type="button" 
+            class="btn-add green-btn"
+            (click)="openShuttlesDashboard()"
+          >
+            {{ 'SHUTTLES_DASHBOARD' | translate }}
+          </button>
+        </div>
+        <app-gestion-plannification-body class="w-full"></app-gestion-plannification-body>
+      </div>
+    </div>
+  </div>

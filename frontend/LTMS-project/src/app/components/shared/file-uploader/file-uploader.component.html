@@ -1,0 +1,85 @@
+<!-- file-upload.component.html -->
+@if (entityType === 'employee' || entityType === 'station') {
+@if (errorMessage) {
+<div class="error-notification">
+  <span>{{ errorMessage }}</span>
+  <button (click)="errorMessage = ''">✕</button>
+</div>
+}
+<div class="w-full text-end mb-4">
+  <label (click)="downloadTemplate(entityType)" for="fileInput"
+    class="cursor-pointer text-end underline-offset-2 underline hover:text-purple-700">
+    {{ 'EXCELTEMPLATE' | translate }}
+  </label>
+</div>
+}
+
+<div class="flex flex-col items-center p-6 max-w-2xl mx-auto">
+  @if (!planification) {
+  <div class="w-full text-center">
+    <h1 class="text-2xl p-5 text-corporateBlue">{{ 'MSSIVEIMPORT' | translate }}</h1>
+  </div>
+  }
+
+  <!-- Upload Area -->
+  @if (!uploadedFile) {
+  <div
+    class="upload-file-area border-2 border-dashed border-gray-300 rounded-lg p-8 w-full text-center cursor-pointer hover:border-blue-500 transition-colors"
+    (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <img src="/images/icons8-microsoft-excel-2019-48.png" alt="Folder icon" class="w-20 h-20 mx-auto mb-4">
+    <p class="upload-text text-gray-600 mb-4">Importer vos documents excel ici pour commencer le téléchargement</p>
+
+    <button type="button"
+      class="upload-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center justify-center gap-2 mx-auto transition-colors">
+      <mat-icon aria-hidden="true" fontIcon="folder_open"></mat-icon>
+      <label for="fileInput" class="cursor-pointer">Importer fichier Excel</label>
+      <input id="fileInput" hidden type="file" accept=".xlsx,.xls" (change)="onFileSelected($event)">
+    </button>
+    <p class="text-gray-500 text-sm mt-2">Ou faites glisser et déposez le fichier ici</p>
+  </div>
+  }
+
+  <!-- Uploaded File Area -->
+  @if (uploadedFile) {
+  <div class="uploaded-file-area w-full">
+    <div class="uploaded-file-excel border border-gray-200 rounded-lg p-4 mb-4">
+      <div class="uploaded-file-header flex justify-between items-start mb-3">
+        <div class="uploaded-file-name flex items-center gap-3">
+          <img src="/images/icons8-microsoft-excel-2019-48.png" alt="Excel icon" class="w-8 h-8">
+          <p class="text-gray-800 truncate">{{ uploadedFile.name }}</p>
+        </div>
+        <button mat-icon-button (click)="onCancel()" class="text-gray-500 hover:text-gray-700">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <mat-progress-bar *ngIf="isUploading" mode="determinate" [value]="uploadProgress" class="h-2 rounded-full">
+      </mat-progress-bar>
+    </div>
+
+    <div class="save-cancel-btn flex justify-between gap-3">
+      <button mat-raised-button color="primary" class="bg-blue-500 text-white" (click)="onSave()"
+        [disabled]="isLoading || isUploading">
+        @if (isLoading) {
+        <span class="flex items-center gap-2">
+          <mat-spinner diameter="20" strokeWidth="2"></mat-spinner>
+          Importing...
+        </span>
+        } @else {
+        Import
+        }
+      </button>
+    </div>
+  </div>
+  }
+</div>
+
+
+<!-- <button 
+      mat-raised-button 
+      color="basic" 
+      class="bg-gray-200 text-gray-800"
+      (click)="onVerify()"
+    >
+      Vérifier
+    </button> -->

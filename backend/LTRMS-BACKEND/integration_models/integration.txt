@@ -1,0 +1,12 @@
+public List<PersistableDailyPlanningRecapModel> loadPersistedRecapDataByAgencyAndKW(
+			int kw, Organization organization, Agency targetAgency, String dayOfWeek) 
+			
+			
+dayOfWeek?==null
+kw int format: 202505 (getNumberForDBStorage)
+
+
+
+weekly detailed planning report
+String fileAbsPath = loadPlanningDataBasisForWeek
+			   (calendarWeek.getNumberForDBStorage(), activeOrg);

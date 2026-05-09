@@ -1,0 +1,26 @@
+<div class="container flex flex-wrap">
+    <div class="right-section">
+      <!-- Error Notification -->
+      @if (errorMessage) {
+        <div class="error-notification">
+          <span>{{ errorMessage }}</span>
+          <button (click)="errorMessage = ''">✕</button>
+        </div>
+      }
+  
+      <div class="flex flex-wrap w-full justify-between  items-center mb-10">
+        <h1 class="header">{{ "User" | translate }}</h1>
+        <div class="button-container">
+        <button type="button" class="btn-add blue-btn"  [routerLink]="['/admin/users/new']">
+          <a class="NV">
+            {{ "add"| translate }}
+          </a>
+        </button>
+        <button type="button" class="btn-add" >
+          {{ 'EXPORT' | translate }}
+        </button>
+        </div>
+        <app-user-data class="w-full"></app-user-data>
+    </div>
+      </div>
+    </div>

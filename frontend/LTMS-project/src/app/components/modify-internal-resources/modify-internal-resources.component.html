@@ -1,0 +1,474 @@
+<app-nav-bar></app-nav-bar>
+
+@if (isUpdating) {
+<div id="alert-border-3"
+  class="flex items-center p-4 mb-4 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-400 dark:bg-gray-800 dark:border-yellow-800"
+  role="alert">
+  <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+    viewBox="0 0 20 20">
+    <path
+      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+  </svg>
+  <div class="ms-3 text-sm font-medium">
+    {{ (entityType === 'plantsection') ? ('AGENCY_UPDATED' | translate) : '' }}
+  </div>
+</div>
+}
+
+<div class="container">
+  @if (errorMessage) {
+  <div class="error-notification">
+    {{ errorMessage | translate }}
+    <button (click)="errorMessage = null" class="close-btn">✕</button>
+  </div>
+  }
+  <div class="login-box">
+    <!-- Dynamic title based on entity type -->
+    <h1>
+      @if (item) {
+      @if (entityType === 'plantsection') {
+      {{ 'MODIFY' | translate }} {{ item.name }}
+      }
+      }
+    </h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Agency Form Fields -->
+      @if (entityType === 'plantsection' && item) {
+      <div class="input-container">
+        <label for="plantsection_name">{{ 'NAME' | translate }}</label>
+        <input type="text" id="plantsection_name" [disabled]="isUpdating" formControlName="plantsection_name" />
+        @if (form.get('plantsection_name')?.invalid && form.get('plantsection_name')?.touched) {
+        <small class="error">{{ 'NAME_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="description">{{ 'DESCRIPTION' | translate }}</label>
+        <input type="text" id="description" [disabled]="isUpdating" formControlName="description" />
+        @if (form.get('description')?.invalid && form.get('description')?.touched) {
+        <small class="error">{{ 'DESCRIPTION_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="emplacement">{{ 'EMPLACEMENT' | translate }}</label>
+        <input type="text" id="emplacement" [disabled]="isUpdating" formControlName="emplacement" />
+        @if (form.get('emplacement')?.invalid && form.get('emplacement')?.touched) {
+        <small class="error">{{ 'EMPLACEMENT_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="psManagerId">{{ 'MANAGER' | translate }}</label>
+        <select id="psManagerId" [disabled]="isUpdating" formControlName="psManagerId">
+          <option [ngValue]="null" disabled>{{ 'MANAGER' | translate }}</option>
+          @for (psManager of psManagers; track psManager.id) {
+          <option [value]="psManager.id">{{ psManager.firstName }}</option>
+          }
+        </select>
+        @if (form.get('psManagerId')?.invalid) { <!-- Remove the touched check -->
+        <small class="error">{{ 'MANAGER_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="rhManagerId">{{ 'RH-RESPONSABLE' | translate }}</label>
+        <select id="rhManagerId" [disabled]="isUpdating" formControlName="rhManagerId">
+          <option [ngValue]="null" disabled>{{ 'RH-RESPONSABLE' | translate }}</option>
+          @for (rhManager of rhManagers; track rhManager.id) {
+          <option [value]="rhManager.id">{{ rhManager.firstName }}</option>
+          }
+        </select>
+        @if (form.get('rhManagerId')?.invalid) { <!-- Remove the touched check -->
+        <small class="error">{{ 'RH_RESPONSABLE_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="organization">{{ 'ORGANIZATION' | translate }}</label>
+        <input type="text" id="organization" [disabled]="isUpdating" formControlName="organization" />
+        @if (form.get('organization')?.invalid && form.get('organization')?.touched) {
+        <small class="error">{{ 'ORGANIZATION_REQUIRED' | translate }}</small>
+        }
+      </div>
+      }
+
+      @if (entityType === 'segment' && item) {
+      <!-- Segment Form -->
+      <div class="input-container">
+        <label for="segment_name">{{ 'SEGMENT_NAME' | translate }}</label>
+        <input type="text" id="segment_name" [disabled]="isUpdating" formControlName="segment_name" />
+        @if (form.get('segment_name')?.invalid && form.get('segment_name')?.touched) {
+        <small class="error">{{ 'SEGMENTNAME_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="costCenter">{{ 'COST_CENTER' | translate }}</label>
+        <input type="text" id="costCenter" [disabled]="isUpdating" formControlName="costCenter" />
+        @if (form.get('costCenter')?.invalid && form.get('costCenter')?.touched) {
+        <small class="error">{{ 'COSTCENTER_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="sapRef">{{ 'SAPREF' | translate }}</label>
+        <input type="text" id="sapRef" [disabled]="isUpdating" formControlName="sapRef" />
+        @if (form.get('sapRef')?.invalid && form.get('sapRef')?.touched) {
+        <small class="error">{{ 'SAPREFERENCE_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="plantSectionId">{{ 'PS' | translate }}</label>
+        <select id="plantSectionId" formControlName="plantSectionId" [disabled]="isUpdating">
+          <option value="" disabled selected>{{ 'PS' | translate }}</option>
+          @for (plantsection of plantsections; track plantsection.id) {
+          <option [value]="plantsection.id">{{ plantsection.plantsection_name }}</option>
+          }
+        </select>
+        @if (form.get('plantSectionId')?.invalid && form.get('plantSectionId')?.touched) {
+        <small class="error">{{ 'PS_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="rhSegmentId">{{ 'RH_SEGMENT' | translate }}</label>
+        <select id="rhSegmentId" formControlName="rhSegmentId" [disabled]="isUpdating">
+          <option value="" disabled selected>{{ 'RH_SEGMENT' | translate }}</option>
+          @for (rhSegmentUser of rhSegmentUsers; track rhSegmentUser.id) {
+          <option [value]="rhSegmentUser.id">{{ rhSegmentUser.firstName }}</option>
+          }
+        </select>
+        @if (form.get('rhSegmentId')?.invalid || form.get('rhSegmentId')?.touched) {
+        <small class="error">{{ 'RHSEGMENT_REQUIRED' | translate }}</small>
+        }
+      </div>
+
+      <div class="input-container">
+        <label for="chefSegmentId">{{ 'CHEF_SEGMENT' | translate }}</label>
+        <select id="chefSegmentId" formControlName="chefSegmentId" [disabled]="isUpdating">
+          <option value="" disabled selected>{{ 'CHEF_SEGMENT' | translate }}</option>
+          @for (chefSegmentUser of chefSegmentUsers; track chefSegmentUser.id) {
+          <option [value]="chefSegmentUser.id">{{ chefSegmentUser.firstName }}</option>
+          }
+        </select>
+        @if (form.get('chefSegmentId')?.invalid || form.get('chefSegmentId')?.touched) {
+        <small class="error">{{ 'SEGMENTCHIEF_REQUIRED' | translate }}</small>
+        }
+      </div>
+      }
+
+      @if (entityType === 'employee' && item) {
+      <div class="form-section">
+        <div class="input-container">
+          <label for="serialNumber">{{ 'MATRICULE' | translate }}</label>
+          <input type="text" id="serialNumber" [disabled]="isUpdating" formControlName="serialNumber" />
+          @if (form.get('serialNumber')?.invalid && form.get('serialNumber')?.touched) {
+          <small class="error">{{ 'MATRICULE_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="lastName">{{ 'LAST_NAME' | translate }}</label>
+          <input type="text" id="lastName" [disabled]="isUpdating" formControlName="lastName" />
+          @if (form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+          <small class="error">{{ 'LAST_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
+          <input type="text" id="firstName" [disabled]="isUpdating" formControlName="firstName" />
+          @if (form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+          <small class="error">{{ 'FIRST_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="againstMaster">{{ 'IS_COUNTER_MASTER' | translate }}</label>
+          <input type="text" [disabled]="isUpdating" formControlName="againstMaster" id="againstMaster"
+            placeholder="{{ 'IS_COUNTER_MASTER' | translate }}" />
+          @if (form.get('againstMaster')?.invalid && form.get('againstMaster')?.touched) {
+          <small class="error">{{ 'IS_COUNTER_MASTER_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="groupName">{{ 'GROUP_NAME' | translate }}</label>
+          <input type="text" id="groupName" [disabled]="isUpdating" formControlName="groupName" />
+          @if (form.get('groupName')?.invalid && form.get('groupName')?.touched) {
+          <small class="error">{{ 'GROUP_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="plantSectionId">{{ 'PS' | translate }}</label>
+          <select id="plantSectionId" [disabled]="isUpdating" formControlName="plantSectionId">
+            <option value="">{{ 'SELECT_PS' | translate }}</option>
+            @for (plantSection of plantsections; track plantSection.id) {
+            <option [value]="plantSection.id">{{ plantSection.plantsection_name }}</option>
+            }
+          </select>
+          @if (form.get('plantSectionId')?.invalid || form.get('plantSectionId')?.touched) {
+          <small class="error">{{ 'PS_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="phoneNumber">{{ 'PHONE_NUMBER' | translate }}</label>
+          <input type="tel" id="phoneNumber" [disabled]="isUpdating" formControlName="phoneNumber" />
+          @if (form.get('phoneNumber')?.invalid || form.get('phoneNumber')?.touched) {
+          <small class="error">{{ 'PHONE_NUMBER_INVALID' | translate }}</small>
+          }
+        </div>
+
+        <div class="checkbox-group">
+          <!-- <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="is_exempt" [disabled]="isUpdating" formControlName="is_exempt" />
+              {{ 'EXONERATED' | translate }}
+            </label>
+          </div>
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="is_deleted" [disabled]="isUpdating" formControlName="is_deleted" />
+              {{ 'DELETED' | translate }}
+            </label>
+          </div> -->
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="direct" [disabled]="isUpdating" formControlName="direct" />
+              {{ 'DIRECT' | translate }}
+            </label>
+          </div>
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="activeForPlanification" [disabled]="isUpdating"
+                formControlName="activeForPlanification" />
+              {{ 'ACTIVE_FOR_PLANNING' | translate }}
+            </label>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label for="costCenter">{{ 'COST_CENTER' | translate }}</label>
+          <input type="text" id="costCenter" [disabled]="isUpdating" formControlName="costCenter" />
+          @if (form.get('costCenter')?.invalid && form.get('costCenter')?.touched) {
+          <small class="error">{{ 'COST_CENTER_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="stationId">{{ 'STATION' | translate }}</label>
+          <select formControlName="stationId" [disabled]="isUpdating" id="stationId">
+            <option value="" disabled selected>{{ 'STATION' | translate }}</option>
+            @for (station of stations; track station.id) {
+            <option [value]="station.id">{{ station.refRegion }}</option>
+            }
+          </select>
+          @if (form.get('stationId')?.invalid && form.get('stationId')?.touched) {
+          <small class="error">{{ 'STATION_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="segmentId">{{ 'SEGMENT' | translate }}</label>
+          <select formControlName="segmentId" [disabled]="isUpdating" id="segmentId">
+            <option value="" disabled selected>{{ 'SEGMENT' | translate }}</option>
+            @for (segment of segments; track segment.id) {
+            <option [value]="segment.id">{{ segment.segment_name }}</option>
+            }
+          </select>
+          @if (form.get('segmentId')?.invalid && form.get('segmentId')?.touched) {
+          <small class="error">{{ 'SEGMENT_REQUIRED' | translate }}</small>
+          }
+        </div>
+      </div>
+      }
+
+      @if (entityType === 'path' && item) {
+      <div class="form-section">
+        <div class="input-container">
+          <label for="pathReference">{{ 'PATH_REFERENCE' | translate }}</label>
+          <input type="text" id="pathReference" [disabled]="isUpdating" formControlName="pathReference" />
+          @if (form.get('pathReference')?.invalid && form.get('pathReference')?.touched) {
+          <small class="error">{{ 'PATH_REFERENCE_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="leoniSapReference">{{ 'LEONI_SAP_REFERENCE' | translate }}</label>
+          <input type="text" id="leoniSapReference" [disabled]="isUpdating" formControlName="leoniSapReference" />
+          @if (form.get('leoniSapReference')?.invalid && form.get('leoniSapReference')?.touched) {
+          <small class="error">{{ 'SAP_REFERENCE_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="numberOfKilometres">{{ 'NUMBER_OF_KILOMETRES' | translate }}</label>
+          <input type="number" id="numberOfKilometres" [disabled]="isUpdating" formControlName="numberOfKilometres"
+            step="0.1" min="0" />
+
+          @if (form.get('numberOfKilometres')?.invalid && form.get('numberOfKilometres')?.touched) {
+          <small class="error">
+            @if (form.get('numberOfKilometres')?.hasError('required')) {
+            {{ 'KILOMETERS_REQUIRED' | translate }}
+            }
+            @if (form.get('numberOfKilometres')?.hasError('min')) {
+            {{ 'KILOMETERS_MIN' | translate:{value: 0} }}
+            }
+          </small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="employeeContribution">{{ 'EMPLOYEE_CONTRIBUTION' | translate }}</label>
+          <input type="number" id="employeeContribution" [disabled]="isUpdating" formControlName="employeeContribution"
+            step="0.01" min="0" />
+
+          @if (form.get('employeeContribution')?.invalid && form.get('employeeContribution')?.touched) {
+          <small class="error">
+            @if (form.get('employeeContribution')?.hasError('required')) {
+            {{ 'CONTRIBUTION_REQUIRED' | translate }}
+            }
+            @if (form.get('employeeContribution')?.hasError('min')) {
+            {{ 'CONTRIBUTION_MIN' | translate:{value: 0} }}
+            }
+          </small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="kilometreCost">{{ 'KILOMETRE_COST' | translate }}</label>
+          <input type="number" id="kilometreCost" [disabled]="isUpdating" formControlName="kilometreCost" step="0.01"
+            min="0" />
+          @if (form.get('kilometreCost')?.invalid && (form.get('kilometreCost')?.touched ||
+          form.get('kilometreCost')?.dirty)) {
+          <small class="error">
+            @if (form.get('kilometreCost')?.hasError('required')) {
+            {{ 'COST_PER_KM_REQUIRED' | translate }}
+            }
+            @if (form.get('kilometreCost')?.hasError('min')) {
+            {{ 'COST_PER_KM_MIN' | translate:{value: 0} }}
+            }
+          </small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="arrivalPoint">{{ 'ARRIVAL_POINT' | translate }}</label>
+          <input type="text" id="arrivalPoint" [disabled]="isUpdating" formControlName="arrivalPoint" />
+          @if (form.get('arrivalPoint')?.invalid && form.get('arrivalPoint')?.touched) {
+          <small class="error">{{ 'ARRIVAL_POINT_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="agencyId">{{ 'AGENCY' | translate }}</label>
+          <select id="agencyId" [disabled]="isUpdating" formControlName="agencyId">
+            <option value="" disabled>{{ 'CHOOSE_AGENCY' | translate }}</option>
+            @for (agency of agencies; track agency.id) {
+            <option [value]="agency.id">{{ agency.name }}</option>
+            }
+          </select>
+          @if (form.get('agencyId')?.invalid && form.get('agencyId')?.touched) {
+          <small class="error">{{ 'AGENCY_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+      </div>
+      <div class="mt-6 p-4 border rounded-lg bg-gray-50">
+        <h3 class="text-lg font-semibold mb-4">Circuit Stations</h3>
+        <app-station-selector [availableStations]="availableStations" [selectedStationIds]="selectedStationIds"
+          (stationSelected)="onStationSelected($event)" (stationRemoved)="onStationRemoved($event)">
+        </app-station-selector>
+      </div>
+      }
+      @if (entityType === 'station' && item) {
+      <div class="form-section">
+        <div class="input-container">
+          <label for="refRegion">{{ 'REF_REGION' | translate }}</label>
+          <input type="text" id="refRegion" [disabled]="isUpdating" formControlName="refRegion" />
+          @if (form.get('refRegion')?.invalid && form.get('refRegion')?.touched) {
+          <small class="error">{{ 'REGIONREFERENCE_REQUIRED' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="refSapLeoni">{{ 'REF_SAP_LEONI' | translate }}</label>
+          <input type="text" id="refSapLeoni" [disabled]="isUpdating" formControlName="refSapLeoni" />
+          @if (form.get('refSapLeoni')?.invalid && form.get('refSapLeoni')?.touched) {
+          <small class="error">{{ 'REF_SAP_LEONI' | translate }}</small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="longitude">{{ 'LONGITUDE' | translate }}</label>
+          <input type="number" id="longitude" [disabled]="isUpdating" formControlName="longitude" step="0.000001"
+            [min]="-180" [max]="180" />
+
+          @if (form.get('longitude')?.invalid && form.get('longitude')?.touched) {
+          <small class="error">
+            @if (form.get('longitude')?.hasError('required')) {
+            {{ 'LONGITUDE_REQUIRED' | translate }}
+            }
+            @if (form.get('longitude')?.hasError('min') || form.get('longitude')?.hasError('max')) {
+            {{ 'VALID_LONGITUDE_RANGE' | translate }}
+            }
+          </small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="latitude">{{ 'LATITUDE' | translate }}</label>
+          <input type="number" id="latitude" [disabled]="isUpdating" formControlName="latitude" step="0.000001"
+            [min]="-90" [max]="90" />
+
+          @if (form.get('latitude')?.invalid && form.get('latitude')?.touched) {
+          <small class="error">
+            @if (form.get('latitude')?.hasError('required')) {
+            {{ 'LATITUDE_REQUIRED' | translate }}
+            }
+            @if (form.get('latitude')?.hasError('min') || form.get('latitude')?.hasError('max')) {
+            {{ 'VALID_LATITUDE_RANGE' | translate }}
+            }
+          </small>
+          }
+        </div>
+
+        <div class="input-container">
+          <label for="radius">{{ 'RADIUS' | translate }} (meters)</label>
+          <input type="number" id="radius" [disabled]="isUpdating" formControlName="radius" min="1" />
+
+          @if (form.get('radius')?.invalid && form.get('radius')?.touched) {
+          <small class="error">
+            @if (form.get('radius')?.hasError('required')) {
+            {{ 'RADIUS_REQUIRED' | translate }}
+            }
+            @if (form.get('radius')?.hasError('min')) {
+            {{ 'MIN_RADIUS_1' | translate }}
+            }
+          </small>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Submit and Go Back Buttons -->
+      <div class="button-container">
+        @if (!isUpdating) {
+        <button type="submit" class="btn-add" [disabled]="isUpdating || form.invalid">
+          {{ isUpdating ? ('UPDATING' | translate) : ('UPDATE' | translate) }}
+        </button>
+        }
+
+        @if (isUpdating) {
+        <a class="btn-add" [routerLink]="getRedirectLink()" id="redirectLink">
+          {{ 'GOBACK' | translate }}
+        </a>
+        }
+      </div>
+    </form>
+  </div>
+</div>

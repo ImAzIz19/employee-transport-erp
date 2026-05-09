@@ -1,0 +1,120 @@
+<div class="table-container">
+   @if (errorMessage) {
+    <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Dynamic columns -->
+      <ng-container *ngFor="let col of columns" [matColumnDef]="col.field">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ col.header | translate }}</th>
+        <td mat-cell *matCellDef="let item" [class.desactivated-row]="!item.active">
+          @if(col.field === 'psManagerId') {
+            {{ getPsManagerName(item[col.field]) }}
+          }
+          @else if(col.field === 'rhManagerId') {
+            {{ getRhManagerName(item[col.field]) }}
+          }
+          @else {
+            {{ item[col.field] }}
+          }
+          
+        </td>
+      </ng-container>
+
+      <!-- Action column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>{{ 'ACTION' | translate }}</th>
+        <td mat-cell *matCellDef="let item">
+          @if(item.plantsection_name){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item.segment_name){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item.serialNumber){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item.pathReference){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item. refRegion){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item.name){
+            <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }} </a>
+          }
+          @if(item.full_name){
+          <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          @if(item.numDeReference){
+          <a class="detail" (click)="openDetails(item)">{{ 'DETAILS' | translate }}</a>
+          }
+          |
+          @if(item.active) {
+            @if(item.nomDeEntreprise){
+              <a class="detail" [routerLink]="['/external-resources/agencies/modify/agency', item.id]">{{ 'MODIFY' | translate }}</a>
+            }
+            @if(item.full_name){
+            <a class="detail" [routerLink]="['/external-resources/drivers/modify/driver', item.id]">{{ 'MODIFY' | translate }}</a>
+            }
+            @if(item.numDeReference){
+            <a class="detail" [routerLink]="['/external-resources/vehicles/modify/vehicle', item.id]">{{ 'MODIFY' | translate }}</a>
+            }
+            @if(item.plantsection_name){
+              <a class="detail" [routerLink]="['/internal-resources/plantsections/modify/plantsection', item.id]">{{ 'MODIFY' | translate }}</a>
+            }
+            @if(item.segment_name){
+              <a class="detail" [routerLink]="['/internal-resources/segments/modify/segment', item.id]">
+                {{ 'MODIFY' | translate }}
+              </a>
+            }
+            @if(item.serialNumber){
+              <a class="detail" [routerLink]="['/internal-resources/employees/modify/employee', item.id]">
+                {{ 'MODIFY' | translate }}
+              </a>
+            }
+            @if(item.pathReference){
+              <a class="detail" [routerLink]="['/internal-resources/paths/modify/path', item.id]">
+                {{ 'MODIFY' | translate }}
+              </a>
+            }
+            @if(item.refRegion){
+              <a class="detail" [routerLink]="['/internal-resources/stations/modify/station', item.id]">
+                {{ 'MODIFY' | translate }}
+              </a>
+            }
+          }
+
+          @if(item.active) {
+            <a class="supprimer" (click)="onDesactivateClick(item)">{{ 'DESACTIVATED' | translate }}</a>
+          } @else {
+            <a class="supprimer" (click)="onActivateClick(item)">{{ 'ACTIVATE' | translate }}</a>
+            <a class="supprimer" (click)="onDeleteClick(item)">{{ 'DELETE' | translate }}</a>
+          }
+        </td>
+      </ng-container>
+
+      <!-- Header row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- Data rows -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.desactivated-row]="row.isDesactivated"></tr>
+
+      <!-- No data row -->
+      <tr *matNoDataRow>
+        <td [attr.colspan]="displayedColumns.length">
+          <p>{{ 'THERE_IS_NO_DATA_HERE' | translate }}</p>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- Add the paginator -->
+<mat-paginator
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  showFirstLastButtons
+  aria-label="Select page of data">
+</mat-paginator>

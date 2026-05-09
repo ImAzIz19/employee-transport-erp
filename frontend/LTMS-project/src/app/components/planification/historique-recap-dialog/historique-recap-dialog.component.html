@@ -1,0 +1,33 @@
+<!-- historique-recap-dialog.component.html -->
+<div class="login-box p-5">
+    <h1 class="header">{{ 'HISTORY_RECAP' | translate }}</h1>
+    
+    <div class="input-container">
+        <div class="date-input-container">
+            <input type="date" id="dateNaissance" name="dateNaissance">
+            <label for="dateNaissance" class="placeholder">De</label>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="date-input-container">
+            <input type="date" id="dateNaissance" name="dateNaissance">
+            <label for="dateNaissance" class="placeholder">à</label>
+        </div>
+    </div>
+  
+    <!-- Rest of the dialog remains the same -->
+    <div class="input-container">
+      <label>{{ 'CHOOSE_AGENCY' | translate }}</label>
+      <select [(ngModel)]="selectedAgency" class="agency-select">
+        <option value="">{{ 'SELECT_AGENCY' | translate }}</option>
+        <option *ngFor="let agency of agencies" [value]="agency.id">{{ agency.name }}</option>
+      </select>
+    </div>
+  
+    <div class="button-container">
+      <button class="btn-add" (click)="exportData()" [disabled]="!isFormValid()">
+        {{ 'EXPORT' | translate }}
+      </button>
+    </div>
+</div>

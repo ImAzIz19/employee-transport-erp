@@ -1,0 +1,47 @@
+###
+POST http://localhost:9090/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "ghassen",
+  "lastName": "boughalmi",
+  "email": "mohamedgassenboughalmi@gmail.com",
+  "password": "ghassen2003",
+  "role": "USER"
+}
+###
+POST http://localhost:9090/auth/login
+Content-Type: application/json
+
+{
+  "email": "mohamedgassenboughalmi@gmail.com",
+  "password": "ghassen2003"
+}
+###
+POST http://localhost:9090/auth/verify-email
+Content-Type: application/json
+
+{
+  "email": "mohamedgassenboughalmi@gmail.com"
+}
+###
+POST http://localhost:9090/auth/verify-mfa
+Content-Type: application/json
+
+{
+  "email": "mohamedgassenboughalmi@gmail.com",
+  "code": "807129"
+}
+###
+POST http://localhost:9090/auth/change-password
+Content-Type: application/json
+
+{
+  "email": "mohamedgassenboughalmi@gmail.com",
+  "newPassword": "12345"
+}
+
+###
+POST http://localhost:9090/auth/refresh-token
+Authorization: Bearer
+

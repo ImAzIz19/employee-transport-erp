@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>
+  {{ actionTitle | translate: { entityName: data.entityName } }}
+</h2>
+
+<mat-dialog-content>
+  <p>{{ actionMessage | translate: { entityName: data.entityName } }}</p>
+  @if(data.additionalMessage) {
+    <p class="additional-message">{{ data.additionalMessage }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+  <button mat-raised-button 
+          [color]="data.actionType === 'delete' ? 'warn' : 'primary'" 
+          [mat-dialog-close]="true">
+    {{ confirmButtonText | translate }}
+  </button>
+</mat-dialog-actions>

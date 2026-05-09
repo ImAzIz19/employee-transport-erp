@@ -1,0 +1,25 @@
+@if (errorMessage) {
+    <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+<div class=" h-[900px] p-10 md:p-28 overflow-y-hidden	">
+
+    <div class="flex flex-wrap w-full rounded-xl mt-22 md:h-[700px]  border-2">
+    <div class="w-full h-56 md:w-[50%] md:h-full place-items-center p-10 rounded-t-xl  bg-accentBlue">
+    </div>
+    <div class="flex flex-wrap w-full md:w-[50%] text-center  rounded-b-xl bg-white">
+        <h1 class="header-style">{{'WELCOME' | translate}}</h1>
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="p-10  ">
+        <input type="text" class="login-input-style" placeholder="Login/Email" formControlName="username">
+        <input type="password" class="login-input-style" placeholder="{{'PASS' | translate}}" formControlName="password">
+        <button type="submit" class="w-full border-2 bg-accentOrange rounded-2xl py-2 mx-2 mb-20 text-white text-xl lg:text-2xl md:h-16 font-normal hover:bg-accentLightBlue">
+          {{'COX-BTN' | translate}}
+        </button>
+        </form>
+        <a routerLink="/forget-password" class="hyper-link ">{{'PASS-FORGET' | translate}}</a>
+    </div>
+    </div>
+
+</div>

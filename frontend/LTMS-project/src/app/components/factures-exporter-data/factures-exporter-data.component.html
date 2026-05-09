@@ -1,0 +1,67 @@
+<div class="container">
+    
+    @if (errorMessage) {
+    <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+    @if (successMessage) {
+    <div class="success-notification">
+        {{ successMessage | translate }}
+        <button (click)="successMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+    <form [formGroup]="form" class="w-full text-start pb-10">
+        <div class="input-container">
+            <label for="agencyId">{{ 'AGENCE' | translate }}</label>
+            <select formControlName="agencyId" id="agencyId" class="form-select"
+                [class.invalid]="form.get('agencyId')?.invalid && (form.get('agencyId')?.touched || form.get('plantSectionId')?.dirty)">
+                <option value="" disabled selected>{{ 'AGENCE' | translate }}</option>
+                @for (agency of agencies; track agency.id) {
+                <option [value]="agency.id">{{ agency.nomDeEntreprise }}</option>
+                }
+            </select>
+            @if (form.get('agencyId')?.invalid && form.get('agencyId')?.touched) {
+            <small class="error">{{ 'AGENCY_REQUIRED' | translate }}</small>
+            }
+        </div>
+        <div class="input-container">
+            <label>{{ 'YEAR' | translate }}</label>
+            <select formControlName="selectedYear" class="form-select"
+                [class.invalid]="form.get('selectedYear')?.invalid && (form.get('selectedYear')?.touched || form.get('selectedYear')?.dirty)">
+                <option value="">{{ 'SELECT_YEAR' | translate }}</option>
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+            @if (form.get('selectedYear')?.invalid && (form.get('selectedYear')?.touched ||
+            form.get('selectedYear')?.dirty)) {
+            <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+            }
+        </div>
+
+        <div class="input-container">
+            <label>{{ 'MONTH' | translate }}</label>
+            <select formControlName="selectedMonth" class="form-select"
+                [class.invalid]="form.get('selectedMonth')?.invalid && (form.get('selectedMonth')?.touched || form.get('selectedMonth')?.dirty)">
+                <option value="">{{ 'SELECT_MONTH' | translate }}</option>
+                <option *ngFor="let month of months" [value]="month.value">{{ month.name | translate }}</option>
+            </select>
+            @if (form.get('selectedMonth')?.invalid && (form.get('selectedMonth')?.touched ||
+            form.get('selectedMonth')?.dirty)) {
+            <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+            }
+        </div>
+
+
+        <div class="button-container">
+            <button type="button" class="btn-action btn-add" (click)="executeAction()"
+                [disabled]="isLoading || form.invalid">
+                @if (isLoading) {
+                <span>{{ 'LOADING' | translate }}...</span>
+                } @else {
+                {{ operationType === 'load' ? ('LOAD' | translate) : ('CALCULATE' | translate) }}
+                }
+            </button>
+        </div>
+    </form>
+</div>

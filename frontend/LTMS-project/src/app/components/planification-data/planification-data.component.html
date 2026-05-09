@@ -1,0 +1,106 @@
+<div class="p-4">
+
+  <!-- Header Section -->
+
+  @if (errorMessage) {
+    <div class="error-notification">
+      <span>{{ errorMessage }}</span>
+      <button (click)="errorMessage = ''">✕</button>
+    </div>
+  }
+
+  <!-- Filter Component -->
+  <app-planification-filter 
+    [plantSections]="plantSections" 
+    [weeks]="weeks"
+    (filterChanged)="onFilterChange($event)">
+  </app-planification-filter>
+
+  <!-- Data Table -->
+  <mat-card class="overflow-hidden shadow-sm">
+    @if (isLoading) {
+      <div class="flex justify-center items-center p-8">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    } @else {
+      <div class="overflow-x-auto">
+        <table mat-table [dataSource]="dataSource" class="w-full">
+          <!-- Date Column -->
+          <ng-container matColumnDef="dateAction">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">DATE</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.week}}</td>
+          </ng-container>
+
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">USERNAME</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.userName}}</td>
+          </ng-container>
+
+          <!-- Action Name Column -->
+          <ng-container matColumnDef="actionName">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">ACTION</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.actionName}}</td>
+          </ng-container>
+
+          <!-- Plant Section Column -->
+          <ng-container matColumnDef="plantSectionName">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">PLANT SECTION</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.plantSectionName}}</td>
+          </ng-container>
+
+          <!-- Week Column -->
+          <ng-container matColumnDef="week">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">WEEK</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.week || '-'}}</td>
+          </ng-container>
+
+          <!-- Filename Column -->
+          <ng-container matColumnDef="filename">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">FILENAME</th>
+            <td mat-cell *matCellDef="let element" class=" text-blue-400 cursor-pointer" (click)="downloadFile(element)">{{element.targetAction}}</td>
+          </ng-container>
+
+          <!-- Organization Column -->
+          <ng-container matColumnDef="orgName">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">ORGANIZATION</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700">{{element.orgName}}</td>
+          </ng-container>
+
+          <!-- Employees Column -->
+          <ng-container matColumnDef="plannedEmployees">
+            <th mat-header-cell *matHeaderCellDef class="!bg-gray-50 !text-gray-600">EMPLOYEES</th>
+            <td mat-cell *matCellDef="let element" class="!text-gray-700 cursor-pointer" (click)="openDetails(element)">
+              <span
+                [class.text-green-600]="element.successSaved === element.totalLines"
+                [class.text-red-600]="element.successSaved !== element.totalLines">
+                {{getPlannedEmployeesDisplay(element)}}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="h-12"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:!bg-gray-50 h-10"></tr>
+        </table>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator 
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        [pageSize]="pageSize"
+        [length]="filteredData.length"
+        showFirstLastButtons
+        aria-label="Select page of data"
+        class="!border-t !border-gray-200"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+
+      <!-- Empty State -->
+      @if (filteredData.length === 0 && !isLoading) {
+        <div class="p-8 text-center text-gray-500">
+          No planifications found
+        </div>
+      }
+    }
+  </mat-card>
+</div>

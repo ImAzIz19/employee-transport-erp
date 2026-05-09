@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #002857;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  max-width: 1500px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+  
+}
+
+.titre {
+  color: #050C9C;
+  padding-bottom: 15px;
+  font-weight: 600;
+}
+
+.table-wrapper {
+  
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 15px 10px;
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  position: sticky;
+  top: 0;
+}
+
+a {
+  margin: 0 5px;
+  text-decoration: none;
+  color: #0064c8;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the empty message */
+td p {
+  text-align: center;
+  font-size: 16px;
+  color: #666; /* Optional: Add a subtle color */
+}
+
+mat-paginator {
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px; 
+}
+/* For the entire row */
+.desactivated-row {
+  background-color: rgba(255, 0, 0, 0.1) !important; /* Light red background */
+}
+
+/* For individual cells in deactivated rows */
+.desactivated-row td {
+  color: #d32f2f !important; /* Darker red text */
+  opacity: 0.8;
+}
+
+/* For action buttons in deactivated rows */
+.desactivated-row .supprimer,
+.desactivated-row .detail {
+  color: #d32f2f !important;
+}
+
+.supprimer {
+  color: #ff0000;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.detail {
+  cursor: pointer;
+  margin-left: 8px;
+}

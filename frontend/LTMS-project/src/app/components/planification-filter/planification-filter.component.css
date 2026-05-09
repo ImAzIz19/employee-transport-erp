@@ -1,0 +1,8 @@
+
+input {
+  width: 100%;
+  padding: 10px 35px; /* Adjusted padding for icon */
+  border: 1px solid gray;
+  border-radius: 50px;
+  background-color: #f7f7f7;
+}

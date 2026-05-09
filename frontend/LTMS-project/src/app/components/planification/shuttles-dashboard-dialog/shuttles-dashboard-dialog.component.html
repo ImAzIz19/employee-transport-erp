@@ -1,0 +1,32 @@
+<!-- shuttles-dashboard-dialog.component.html -->
+<div class="login-box p-4">
+    <h1>{{ 'SHUTTLES_PLANNING' | translate }}</h1>
+    
+    <div class="input-container">
+      <label>{{ 'CHOOSE_AGENCY' | translate }}</label>
+      <select [(ngModel)]="selectedAgency" class="form-select">
+        <option value="">{{ 'SELECT_AGENCY' | translate }}</option>
+        <option *ngFor="let agency of agencies" [value]="agency.id">{{ agency.name }}</option>
+      </select>
+    </div>
+  
+    <div class="input-container">
+      <label>{{ 'YEAR' | translate }}</label>
+      <select [(ngModel)]="selectedYear" class="form-select">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  
+    <div class="input-container">
+      <label>{{ 'MONTH' | translate }}</label>
+      <select [(ngModel)]="selectedMonth" class="form-select">
+        <option *ngFor="let month of months" [value]="month.value">{{ month.name | translate }}</option>
+      </select>
+    </div>
+  
+    <div class="button-container">
+      <button class="btn-add" (click)="exportData()" [disabled]="!isFormValid()">
+        {{ 'EXPORT' | translate }}
+      </button>
+    </div>
+  </div>

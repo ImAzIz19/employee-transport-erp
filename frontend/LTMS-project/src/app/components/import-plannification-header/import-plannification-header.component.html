@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="right-section flex flex-wrap">
+    <!-- Error Notification -->
+    @if (errorMessage) {
+      <div class="error-notification">
+        <span>{{ errorMessage }}</span>
+        <button (click)="errorMessage = ''">✕</button>
+      </div>
+    }
+
+    <div class="login-box">
+      <h1 class="header">Import de plannification de production</h1>
+      <div class="button-container">
+        <button type="button" class="btn-add blue-btn" routerLink="/planification/importDePlannification/new">
+          <a class="NV">Nouvelle planification</a>
+        </button>
+        <button 
+          type="button" 
+          class="btn-add" 
+          (click)="downloadTemplate()"
+          [disabled]="isLoading"
+        >
+          @if (isLoading) {
+            <span>Loading...</span>
+          } @else {
+            {{ 'EXCELTEMPLATE' | translate }}
+          }
+        </button>
+      </div>
+      <app-planification-data class="w-full"></app-planification-data>
+    </div>
+  </div>
+</div>

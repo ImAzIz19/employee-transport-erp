@@ -1,0 +1,211 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container">
+  @if (errorMessage) {
+    <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+  <div class="login-box">
+    <h1>
+      @if (item) {
+        @if (entityType === 'agency') {
+          {{ 'MODIFY' | translate }} {{ item.nomDeEntreprise }}
+        }
+        @if (entityType === 'driver') {
+          {{ 'MODIFY' | translate }} {{ item.first_name }} {{ item.last_name }}
+        }
+        @if (entityType === 'vehicle') {
+          {{ 'MODIFY' | translate }} {{ item.reference_name }}
+        }
+      }
+    </h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (entityType === 'agency' && item) {
+        <div class="input-container">
+          <label>{{ 'CORPORATE_NAME' | translate }}:</label>
+          <input type="text" formControlName="nomDeEntreprise" />
+          @if (form.get('nomDeEntreprise')?.invalid && form.get('nomDeEntreprise')?.touched) {
+            <small class="error">{{ 'CORPORATE_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'NAME' | translate }}:</label>
+          <input type="text" formControlName="name" />
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            <small class="error">{{ 'NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'ADDRESS' | translate }}:</label>
+          <input type="text" formControlName="address" />
+          @if (form.get('address')?.invalid && form.get('address')?.touched) {
+            <small class="error">{{ 'ADDRESS_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <input
+            type="tel"
+            formControlName="numeroDeTelephone"
+            placeholder="{{ 'PHONE' | translate }}"
+          />
+          @if (form.get('numeroDeTelephone')?.invalid && form.get('numeroDeTelephone')?.touched) {
+            @if (form.get('numeroDeTelephone')?.errors?.['required']) {
+              <small class="error">{{ 'PHONE_NUMBER_REQUIRED' | translate }}</small>
+            }
+            @else if (form.get('numeroDeTelephone')?.errors?.['phoneNumberLength']) {
+              <small class="error">{{ 'PHONE_NUMBER_LENGTH' | translate }}</small>
+            }
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'EMAIL' | translate }}:</label>
+          <input type="email" formControlName="email" />
+          @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <small class="error">
+              @if (form.get('email')?.errors?.['required']) {
+                {{ 'EMAIL_REQUIRED' | translate }}
+              } @else if (form.get('email')?.errors?.['email']) {
+                {{ 'EMAIL_INVALID' | translate }}
+              }
+            </small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'FISCAL_NUMBER' | translate }}:</label>
+          <input type="text" formControlName="matricule" />
+          @if (form.get('matricule')?.invalid && form.get('matricule')?.touched) {
+            <small class="error">{{ 'FISCAL_NUMBER_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'WORK_TIME' | translate }}:</label>
+          <input type="text" formControlName="horaireDeTravail" />
+          @if (form.get('horaireDeTravail')?.invalid && form.get('horaireDeTravail')?.touched) {
+            <small class="error">{{ 'WORK_TIME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'WEB_SITE' | translate }}:</label>
+          <input type="text" formControlName="siteInternet" />
+          @if (form.get('siteInternet')?.invalid && form.get('siteInternet')?.touched) {
+            <small class="error">{{ 'WEB_SITE_REQUIRED' | translate }}</small>
+          }
+        </div>
+      }
+
+      @if (entityType === 'driver' && item) {
+        <div class="input-container">
+          <label>{{ 'FIRST_NAME' | translate }}:</label>
+          <input type="text" formControlName="prenom" />
+          @if (form.get('prenom')?.invalid && form.get('prenom')?.touched) {
+            <small class="error">{{ 'FIRST_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'LAST_NAME' | translate }}:</label>
+          <input type="text" formControlName="nom" />
+          @if (form.get('nom')?.invalid && form.get('nom')?.touched) {
+            <small class="error">{{ 'LAST_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'DATE_OF_BIRTH' | translate }}:</label>
+          <input type="date" formControlName="dateDeNaissance" />
+          @if (form.get('dateDeNaissance')?.invalid && form.get('dateDeNaissance')?.touched) {
+            <small class="error">{{ 'DATE_OF_BIRTH_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <input
+            type="tel"
+            formControlName="telephone"
+            placeholder="{{ 'PHONE' | translate }}"
+          />
+          @if (form.get('telephone')?.invalid && form.get('telephone')?.touched) {
+            @if (form.get('telephone')?.errors?.['required']) {
+              <small class="error">{{ 'PHONE_NUMBER_REQUIRED' | translate }}</small>
+            }
+            @else if (form.get('telephone')?.errors?.['phoneNumberLength']) {
+              <small class="error">{{ 'PHONE_NUMBER_LENGTH' | translate }}</small>
+            }
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'AGENCY_NAME' | translate }}:</label>
+          <select formControlName="agenceId">
+            <option value="" disabled>{{ 'CHOOSE_AGENCY' | translate }}</option>
+            @for (agency of agencies; track agency.id) {
+              <option [value]="agency.id" [selected]="agency.id === item.agence?.id">
+                {{ agency.name }}
+              </option>
+            }
+          </select>
+          @if (form.get('agenceId')?.invalid && form.get('agenceId')?.touched) {
+            <small class="error">{{ 'AGENCY_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+      }
+
+      @if (entityType === 'vehicle' && item) {
+        <div class="input-container">
+          <label>{{ 'VEHICLE_TYPE' | translate }}:</label>
+          <input type="text" formControlName="typeDeVehicule" />
+          @if (form.get('typeDeVehicule')?.invalid && form.get('typeDeVehicule')?.touched) {
+            <small class="error">{{ 'VEHICLE_TYPE_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'SERIAL_NUMBER' | translate }}:</label>
+          <input type="text" formControlName="numDeSeries" />
+          @if (form.get('numDeSeries')?.invalid && form.get('numDeSeries')?.touched) {
+            <small class="error">{{ 'SERIAL_NUMBER_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'STARTUP_DATE' | translate }}:</label>
+          <input type="date" formControlName="dateDeMiseEnRoute" />
+          @if (form.get('dateDeMiseEnRoute')?.invalid && form.get('dateDeMiseEnRoute')?.touched) {
+            <small class="error">{{ 'STARTUP_DATE_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'REFERENCE_NAME' | translate }}:</label>
+          <input type="text" formControlName="numDeReference" />
+          @if (form.get('numDeReference')?.invalid && form.get('numDeReference')?.touched) {
+            <small class="error">{{ 'REFERENCE_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'CAPACITY' | translate }}:</label>
+          <input type="number" formControlName="capacite" />
+          @if (form.get('capacite')?.invalid && form.get('capacite')?.touched) {
+            <small class="error">{{ 'CAPACITY_REQUIRED' | translate }}</small>
+          }
+        </div>
+        <div class="input-container">
+          <label>{{ 'AGENCY_NAME' | translate }}:</label>
+          <select formControlName="agenceId">
+            <option value="" disabled>{{ 'CHOOSE_AGENCY' | translate }}</option>
+            @for (agency of agencies; track agency.id) {
+              <option [value]="agency.id" [selected]="agency.id === item.agence?.id">
+                {{ agency.name }}
+              </option>
+            }
+          </select>
+          @if (form.get('agenceId')?.invalid && form.get('agenceId')?.touched) {
+            <small class="error">{{ 'AGENCY_NAME_REQUIRED' | translate }}</small>
+          }
+        </div>
+      }
+
+      <div class="button-container">
+        <button type="submit" class="btn-add">
+          {{ 'UPDATE' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

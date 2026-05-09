@@ -1,0 +1,190 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #002857;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 1600px;
+    height: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 40px;
+    padding-top: 20px; /* Increased top padding */
+    padding-bottom: 360px;
+    flex-direction: column;
+  }
+  
+  .right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .login-box {
+    @apply flex flex-wrap w-full justify-between  items-center mb-10
+  }
+  
+  .header{
+    @apply text-xl md:text-2xl text-corporateBlue py-6 font-semibold ;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    flex-wrap: wrap;
+  }
+  
+  .NV{
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .btn-add {
+    background: #FF7514;
+    color: #fff;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-add:hover {
+    background: #e65c00;
+  }
+  
+  .blue-btn{
+    background-color: #0064C8;
+  }
+  .blue-btn:hover {
+    background: #002857;
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -45px;
+    margin-top: 60px; /* Positioned below the h1 */
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 10px 35px; /* Adjusted padding for icon */
+    border: 1px solid gray;
+    border-radius: 50px;
+    background-color: #f7f7f7;
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    color: #0064C8;
+    font-size: 1.2rem; /* Adjust icon size */
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .icon-button:focus {
+    outline: none;
+  }
+  
+
+  
+  
+  
+  /* Responsive Design */
+  @media(max-width: 1024px) {
+    .container {
+        width: 70%;
+        margin-top: 100px;
+        padding: 30px;
+    }
+  
+    .input-container input {
+        padding: 10px 35px; /* Extra space for larger icons */
+    }
+  
+    .search-button {
+        right: 20px;
+    }
+  }
+  
+  @media(max-width: 768px) {
+    .container {
+        width: 90%;
+        margin-top: 80px;
+        padding: 20px;
+    }
+  
+    .input-container input {
+        padding: 10px 35px; /* Adjust space for icons */
+    }
+  
+    .search-button {
+        right: 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+        padding: 15px;
+    }
+  
+    .login-box {
+        padding: 0 10px;
+    }
+  
+    .input-container input {
+        padding: 8px 35px;
+    }
+  
+    .search-button {
+        right: 10px;
+    }
+  }
+  .filter-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .status-filter {
+    min-width: 180px;
+  }
+  
+  /* Keep your existing styles and add these */
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .mat-select {
+    padding: 8px 0;
+  }
+
+

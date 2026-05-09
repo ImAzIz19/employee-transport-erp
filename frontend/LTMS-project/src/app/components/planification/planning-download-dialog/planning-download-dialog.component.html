@@ -1,0 +1,82 @@
+<!-- planning-download-dialog.component.html -->
+<div class="login-box p-5">
+    <!-- Error Message Display -->
+    @if (errorMessage) {
+      <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="clearError()" class="close-btn">×</button>
+      </div>
+    }
+  
+    <h1>{{ 'PLANNING_DOWNLOADS' | translate }}</h1>
+  
+    <div class="input-container">
+      <div class="input-container">
+        <label>{{ 'DOWNLOAD_TYPE' | translate }}</label>
+        <select [(ngModel)]="selectedDownloadType" class="form-select" 
+                #downloadType="ngModel"
+                [class.invalid]="downloadType.invalid && (downloadType.touched || downloadType.dirty)">
+          <option value="">{{ 'SELECT_DOWNLOAD_TYPE' | translate }}</option>
+          <option value="station1">{{ 'MONTHLY_GAP_RECAP' | translate }}</option>
+          <option value="station2">{{ 'DETAIL_CIRCUIT_FILE' | translate }}</option>
+          <option value="station3">{{ 'DETAIL_CIRCUIT_AUDIT_FILE' | translate }}</option>
+          <option value="station4">{{ 'DETAIL_STATION_FILE' | translate }}</option>
+          <option value="station5">{{ 'WEEKLY_PLANNING_DETAIL' | translate }}</option>
+        </select>
+        @if (downloadType.invalid && (downloadType.touched || downloadType.dirty)) {
+          <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+        }
+      </div>
+  
+      <!-- Other form controls with similar error handling -->
+      <div class="input-container">
+        <label>{{ 'YEAR' | translate }}</label>
+        <select [(ngModel)]="selectedYear" class="form-select" #year="ngModel"
+                [class.invalid]="year.invalid && (year.touched || year.dirty)">
+          <option value="">{{ 'SELECT_YEAR' | translate }}</option>
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+        @if (year.invalid && (year.touched || year.dirty)) {
+          <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+        }
+      </div>
+  
+      <div class="input-container">
+        <label>{{ 'MONTH' | translate }}</label>
+        <select [(ngModel)]="selectedMonth" class="form-select" #month="ngModel"
+                [class.invalid]="month.invalid && (month.touched || month.dirty)">
+          <option value="">{{ 'SELECT_MONTH' | translate }}</option>
+          <option *ngFor="let month of months" [value]="month.value">{{ month.name | translate }}</option>
+        </select>
+        @if (month.invalid && (month.touched || month.dirty)) {
+          <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+        }
+      </div>
+  
+      <div class="input-container">
+        <label>{{ 'CHOOSE_AGENCY' | translate }}</label>
+        <select [(ngModel)]="selectedAgency" class="form-select" #agency="ngModel"
+                [class.invalid]="agency.invalid && (agency.touched || agency.dirty)">
+          <option value="">{{ 'SELECT_AGENCY' | translate }}</option>
+          <option *ngFor="let agency of agencies" [value]="agency.id">{{ agency.name }}</option>
+        </select>
+        @if (agency.invalid && (agency.touched || agency.dirty)) {
+          <div class="error-text">{{ 'REQUIRED_FIELD' | translate }}</div>
+        }
+      </div>
+  
+      
+    </div>
+  
+    <div class="button-container">
+      <button class="btn-add" (click)="validateAndExport()" [disabled]="isLoading">
+        @if (isLoading) {
+          <span class="loading-spinner"></span>
+          {{ 'PROCESSING' | translate }}
+        } @else {
+          {{ 'EXPORT' | translate }}
+        }
+      </button>
+    </div>
+  
+  </div>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="login-box">
+    <!-- Dynamic Heading -->
+    <h1 class="text-2xl">
+      {{ 'DETAILS_OF' | translate }} 
+      {{ 
+        item.name 
+        || item.plantsection_name
+        || item.segment_name
+        || item.pathReference
+        || item.refRegion
+        || (item.first_name && item.last_name ? item.first_name + ' ' + item.last_name : '')
+        || item.reference_name
+        || ('UNKNOWN_' + entityType | uppercase | translate)
+      }}
+    </h1>
+    <!-- Display Translated Fields -->
+    <div *ngFor="let field of translatedFields" class="input-container">
+      <div>
+        <label>{{ field.key | translate }} : </label>
+        <div class="input-group">
+          <input id="fname" class="w-full p-2 border-2 border-gray-600 rounded-lg bg-gray-300 text-black" readonly value="{{ field.value | translate }}">
+        </div>      
+    </div>
+  </div>
+</div>
+

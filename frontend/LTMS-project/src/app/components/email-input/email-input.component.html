@@ -1,0 +1,35 @@
+<div class="mt-8 p-2 text-center">
+  <div class="w-full flex justify-center">
+    <img src="lock.png" alt="" class="w-20 h-20">
+  </div>
+  <p class="header-style">{{'PASS-FORGET' | translate}}</p>
+  <p class="header-2-style">{{'PASS-FORGET-TEXT' | translate}}</p>
+
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+    <div>
+      <div class="w-full flex justify-center">
+        <input type="text" class="login-input-style" placeholder="Login/Email" formControlName="email"
+        [ngClass]="{
+            'input-error': (emailForm.controls['email'].invalid && (emailForm.controls['email'].touched || emailForm.controls['email'].dirty)) || errorMessage1,
+            'input-valid': emailForm.controls['email'].valid && emailForm.controls['email'].touched
+        }">
+      </div>
+
+      <div *ngIf="emailForm.controls['email'].invalid && emailForm.controls['email'].touched" class="text-red-500 text-2xl">
+        <p *ngIf="emailForm.controls['email'].errors?.['required']">L'email est requis.</p>
+        <p *ngIf="emailForm.controls['email'].errors?.['invalidEmail']">Format d'email invalide.</p>
+      </div>
+      </div>
+
+    <div class="w-full flex justify-center">
+      <button type="submit" [disabled]="emailForm.invalid"
+        class="w-full border-2 bg-accentOrange rounded-2xl py-2 mx-2 mt-20 text-white text-xl lg:text-2xl md:h-16 font-normal hover:bg-accentLightBlue">
+        {{'EMAIL-SEND-BTN' | translate}}
+      </button>
+    </div>
+    <br>
+    <div *ngIf="errorMessage1" class="text-red-500 text-2xl">
+      {{ errorMessage1 }}
+    </div>
+  </form>
+</div>

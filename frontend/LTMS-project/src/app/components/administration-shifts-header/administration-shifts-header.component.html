@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="right-section">
+      <!-- Error Notification -->
+      @if (errorMessage) {
+        <div class="error-notification">
+          <span>{{ errorMessage }}</span>
+          <button (click)="errorMessage = ''">✕</button>
+        </div>
+      }
+      <div class="login-box">
+        <h1 class="header">{{ 'GESTION_SHIFTS' | translate }}</h1>
+        <div class="button-container">
+          <!-- Historique Recap Button -->
+          <button 
+            type="button" 
+            class="btn-add blue-btn" 
+            (click)="openHistoriqueRecap()"
+          >
+            {{ 'NEW_SHIFTS' | translate }}
+          </button>
+        </div>
+        <app-administration-shifts-data class="w-full"></app-administration-shifts-data>
+      </div>
+    </div>
+  </div>

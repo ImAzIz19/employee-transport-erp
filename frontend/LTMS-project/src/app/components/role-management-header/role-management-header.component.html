@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="right-section flex flex-wrap">
+        <!-- Error Notification -->
+        @if (errorMessage) {
+        <div class="error-notification">
+            <span>{{ errorMessage }}</span>
+            <button (click)="clearError()">✕</button>
+        </div>
+        }
+
+        <div class="login-box">
+            <h1 class="header">Gérer les Roles</h1>
+            <div class="flex flex-wrap lg:gap-5 w-full mt-10">
+                <mat-form-field appearance="outline" class="w-full sm:w-[calc(50%-0.5rem)] md:w-[350px]">
+                    <mat-label class="text-gray-600">Roles</mat-label>
+                    <mat-select [formControl]="roleFilter" class="!text-gray-800" (selectionChange)="onLoadRoles()">
+                        <mat-option value="">All Permission</mat-option>
+                        <mat-option *ngFor="let role of roles" [value]="role.name" class="hover:!bg-gray-100">
+                            {{ role.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="relative w-full sm:w-[calc(50%-0.5rem)] md:w-[350px]">
+                    <input type="text" [formControl]="nameFilter" placeholder="Search permissions"
+                        class="w-full pl-10 pr-4 py-[10px] rounded-full border border-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border-solid" />
+                    <svg class="absolute left-3 top-6 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                    </svg>
+                </div>
+                <div class="button-container h-12">
+                    <button type="button" class="btn-add" (click)="onSaveRoles()" [disabled]="isLoading">
+                        @if (isLoading) {
+                        <span>Saving...</span>
+                        } @else {
+                        <span>Save</span>
+                        }
+                    </button>
+                </div>
+                <div class="button-container h-12">
+                    <button type="button" class="btn-add" (click)="onAddRole()" [disabled]="isLoading">
+                        <span>Add Role</span>
+                    </button>
+                </div>
+                <div class="button-container h-12">
+                    <button type="button" class="btn-add" (click)="onDeleteRole()" [disabled]="isLoading ">
+                        <span>Delete Role</span>
+                    </button>
+                </div>
+            </div>
+            
+            @if (showPermissions) {
+            <app-role-management-list class="w-full" [dataSource]="filteredPermissions">
+            </app-role-management-list>
+            }
+        </div>
+    </div>
+</div>

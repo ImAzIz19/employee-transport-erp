@@ -1,0 +1,31 @@
+<div class="login-box p-5">
+  <h1>{{ 'EDIT_SHIFT.TITLE' | translate }}</h1>
+  
+  <div class="input-container">
+    <label for="startTime">{{ 'EDIT_SHIFT.START_TIME' | translate }}</label>
+    <input type="time" id="startTime" [(ngModel)]="data.shift.startTime" class="form-control">
+  </div>
+  
+  <div class="input-container">
+    <label for="endTime">{{ 'EDIT_SHIFT.END_TIME' | translate }}</label>
+    <input type="time" id="endTime" [(ngModel)]="data.shift.endTime" class="form-control">
+  </div>
+  
+  <div class="input-container">
+    <label for="mode">{{ 'EDIT_SHIFT.MODE' | translate }}</label>
+    <select id="mode" [(ngModel)]="data.shift.mode" class="form-control">
+      <option *ngFor="let modeOption of modeOptions" [value]="modeOption.value">
+        {{ modeOption.label | translate }}
+      </option>
+    </select>
+  </div>
+  
+  <div class="button-container w-full">
+    <button type="button" class="btn-add mr-4" (click)="onSave()">
+      {{ 'EDIT_SHIFT.SAVE' | translate }}
+    </button>
+    <button type="button" class="btn-addd" (click)="onCancel()">
+      {{ 'EDIT_SHIFT.CANCEL' | translate }}
+    </button>
+  </div>
+</div>

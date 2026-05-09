@@ -1,0 +1,202 @@
+<div class="container">
+    <!-- Error/Success Messages -->
+    @if (errorMessage) {
+    <div class="error-notification">
+        {{ errorMessage | translate }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+    @if (successMessage) {
+    <div class="success-notification">
+        {{ successMessage | translate }}
+        <button (click)="successMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+
+    <div class="w-full text-start pb-10">
+        <h1 class="text-3xl text-accentBlue">{{ 'Gestion des Planifications et Recap' | translate }}</h1>
+    </div>
+
+    <!-- Operation Selection -->
+    <div class="login-box">
+        <div class="input-container">
+            <label>{{ 'OPERATION_TYPE' | translate }}</label>
+            <select [(ngModel)]="operationType" class="form-select">
+                <option value="load">{{ 'LOAD_SAVED_DATA' | translate }}</option>
+                <option value="recalculate">{{ 'RECALCULATE_DATA' | translate }}</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Common Fields -->
+    <div class="login-box">
+        <div class="input-container">
+            <label>{{ 'ALL_AGENCIES' | translate }}</label>
+            <select [(ngModel)]="allAgencies" class="form-select" (change)="selectedAgencies = []">
+                <option [ngValue]="true">{{ 'ALL_AGENCIES' | translate }}</option>
+                <option [ngValue]="false">{{ 'SELECT_AGENCIES' | translate }}</option>
+            </select>
+        </div>
+        
+        @if (!allAgencies) {
+        <div class="input-container">
+            <label>{{ 'SELECT_AGENCIES' | translate }}</label>
+            <div class="multiselect-dropdown">
+                <div class="selected-options" (click)="toggleAgencyDropdown()">
+                    @if (selectedAgencies.length === 0) {
+                        <span class="placeholder">{{ 'SELECT_AGENCIES_PLACEHOLDER' | translate }}</span>
+                    } @else {
+                        <span class="selected-items">
+                            @for (agency of selectedAgencies; track agency) {
+                                <span class="selected-item">{{ agency | translate }}</span>
+                            }
+                        </span>
+                    }
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                
+                @if (showAgencyDropdown) {
+                    <div class="dropdown-options">
+                        @for (agency of availableAgencies; track agency) {
+                            <label class="option-item">
+                                <input type="checkbox" 
+                                       [checked]="isAgencySelected(agency.name)"
+                                       (change)="toggleAgencySelection(agency.name)">
+                                <span>{{ agency.name| translate }}</span>
+                            </label>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        }
+    
+        <div class="input-container">
+            <label>{{ 'WEEK' | translate }}</label>
+            <div class="week-selection">
+                <select [(ngModel)]="currentWeek" class="form-select week-select">
+                    <option *ngFor="let week of weeks" [value]="week">
+                        {{ 'WEEK_NUMBER' | translate:{week: week, year: currentYear} }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Conditional Fields based on Operation Type -->
+        @if (operationType === 'load') {
+            <div class="input-container">
+                <label>{{ 'SELECT_DAY' | translate }}</label>
+                <div class="multiselect-dropdown">
+                    <div class="selected-options" (click)="toggleDayDropdown()">
+                        @if (selectedDays.length === 0) {
+                            <span class="placeholder">{{ 'SELECT_DAYS_PLACEHOLDER' | translate }}</span>
+                        } @else {
+                            <span class="selected-items">
+                                @for (day of selectedDays; track day) {
+                                    <span class="selected-item">{{ day | translate }}</span>
+                                }
+                            </span>
+                        }
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    
+                    @if (showDayDropdown) {
+                        <div class="dropdown-options">
+                            @for (day of availableDays; track day) {
+                                <label class="option-item">
+                                    <input type="checkbox" 
+                                           [checked]="isDaySelected(day)"
+                                           (change)="toggleDaySelection(day)">
+                                    <span>{{ day | translate }}</span>
+                                </label>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- In the shift selection dropdown part of the template -->
+<div class="input-container">
+    <label>{{ 'SELECT_SHIFT' | translate }}</label>
+    <div class="multiselect-dropdown">
+        <div class="selected-options" (click)="toggleShiftDropdown()">
+            @if (selectedShifts.length === 0) {
+                <span class="placeholder">{{ 'SELECT_SHIFTS_PLACEHOLDER' | translate }}</span>
+            } @else {
+                <span class="selected-items">
+                    @for (shift of selectedShifts; track shift) {
+                        <span class="selected-item">{{ getShiftDisplay(shift) | translate }}</span>
+                    }
+                </span>
+            }
+            <span class="dropdown-arrow">▼</span>
+        </div>
+        
+        @if (showShiftDropdown) {
+            <div class="dropdown-options">
+                @for (shift of availableShifts; track shift) {
+                    <label class="option-item">
+                        <input type="checkbox" 
+                               [checked]="isShiftSelected(shift)"
+                               (change)="toggleShiftSelection(shift)">
+                        <span>{{ getShiftDisplay(shift) | translate }}</span>
+                    </label>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+            <div class="input-container">
+                <label>{{ 'SELECT_CIRCUIT' | translate }}</label>
+                <div class="multiselect-dropdown">
+                    <div class="selected-options" (click)="toggleCircuitDropdown()">
+                        @if (selectedCircuits.length === 0) {
+                            <span class="placeholder">{{ 'SELECT_CIRCUITS_PLACEHOLDER' | translate }}</span>
+                        } @else {
+                            <span class="selected-items">
+                                @for (circuit of selectedCircuits; track circuit) {
+                                    <span class="selected-item">{{ circuit | translate }}</span>
+                                }
+                            </span>
+                        }
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    
+                    @if (showCircuitDropdown) {
+                        <div class="dropdown-options">
+                            @for (circuit of availableCircuits; track circuit) {
+                                <label class="option-item">
+                                    <input type="checkbox" 
+                                           [checked]="isCircuitSelected(circuit.leoniSapReference)"
+                                           (change)="toggleCircuitSelection(circuit.leoniSapReference)">
+                                    <span>{{ circuit.pathReference| translate }}</span>
+                                </label>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="button-container ">
+            <button type="button" class="btn-action btn-add" (click)="executeAction()" [disabled]="isLoading">
+                @if (isLoading) {
+                    <span>{{ 'LOADING' | translate }}...</span>
+                } @else {
+                    {{ operationType === 'load' ? ('LOAD' | translate) : ('CALCULATE' | translate) }}
+                }
+            </button>
+        </div>
+        
+    </div>
+
+</div>
+<app-gestion-plannification-data 
+  *ngIf="week && (allAgencies || agencyId)"
+  [busPlans]="busPlans" 
+  [isLoading]="isLoading"
+  [agencyId]="agencyId"
+  [week]="week"
+  [operationType]="operationType"
+></app-gestion-plannification-data>

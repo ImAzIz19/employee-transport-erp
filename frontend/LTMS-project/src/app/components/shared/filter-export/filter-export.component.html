@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="right-section flex flex-wrap">
+    <div class="flex flex-wrap w-full justify-between  items-center mb-10	">
+      <h1 class="header">{{ title | translate }}</h1>
+      <div class="button-container">
+        <button type="button" class="btn-add blue-btn">
+          <a class="NV" [routerLink]="addButtonRoute">
+            {{ addButtonLabel | translate }}
+          </a>
+        </button>
+        @if(importButtonLabel){
+        <button type="button" class="btn-add blue-btn">
+          <a class="NV" [routerLink]="importButtonRoute">
+            {{ importButtonLabel | translate }}
+          </a>
+        </button>
+        }
+        <button type="button" class="btn-add" (click)="onExport()">
+          {{ 'EXPORT' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="login-box">
+      <form>
+        <div class="w-[100%] flex justify-between gap-8 items-center">
+          <div class="input-container">
+            <div class="relative w-full">
+              <input
+                type="text"
+                [placeholder]="searchPlaceHolder | translate"
+                [formControl]="searchControl"
+                class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <svg
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
+                />
+              </svg>
+            </div>
+                        <button type="button" class="icon-button search-button">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+
+          <mat-form-field appearance="outline" class="status-filter mb-2 w-40 ">
+            <mat-label>{{ 'FILTER_BY_STATUS' | translate }}</mat-label>
+            <mat-select [formControl]="statusControl">
+              <mat-option value="active">{{ 'ACTIVE' | translate }}</mat-option>
+              <mat-option value="inactive">{{ 'INACTIVE' | translate }}</mat-option>
+              <mat-option value="all">{{ 'ALL_STATUSES' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <app-data-table [data]="filteredData" [columns]="columns"></app-data-table>
+</div>

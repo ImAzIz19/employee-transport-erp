@@ -1,0 +1,141 @@
+<app-nav-bar></app-nav-bar>
+<div class="container">
+    <!-- Error/Success Messages -->
+    @if (errorMessage) {
+    <div class="error-notification" [innerHTML]="errorMessage">
+        {{ errorMessage }}
+        <button (click)="errorMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+    @if (successMessage) {
+    <div class="success-notification">
+        {{ successMessage }}
+        <button (click)="successMessage = null" class="close-btn">✕</button>
+    </div>
+    }
+
+    <div class="w-full text-start">
+        <h1 class="text-3xl text-accentBlue">Nouvelle planification</h1>
+    </div>
+
+    <!-- File Upload Section -->
+    <div class="flex flex-col items-center p-6 max-w-2xl mx-auto">
+
+        @if (!uploadedFile) {
+        <div class="upload-file-area border-2 border-dashed border-gray-300 rounded-lg p-8 w-full text-center cursor-pointer hover:border-blue-500 transition-colors"
+            (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+            <img src="/images/icons8-microsoft-excel-2019-48.png" alt="Excel icon" class="w-20 h-20 mx-auto mb-4">
+            <p class="upload-text text-gray-600 mb-4">Importer vos documents Excel ici pour commencer le téléchargement
+            </p>
+
+            <button
+                class="upload-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center justify-center gap-2 mx-auto transition-colors">
+                <mat-icon aria-hidden="true" fontIcon="folder_open">folder_open</mat-icon>
+                <label for="fileInput" class="cursor-pointer">Importer fichier Excel</label>
+                <input id="fileInput" type="file" accept=".xlsx,.xls" (change)="onFileSelected($event)" hidden>
+            </button>
+            <p class="text-gray-500 text-sm mt-2">Ou faites glisser et déposez le fichier ici</p>
+        </div>
+        }
+
+        <!-- Uploaded File Preview -->
+        @if (uploadedFile) {
+        <div class="uploaded-file-area w-full">
+            <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                <div class="uploaded-file-header flex justify-between items-start mb-3r">
+                    <div class="uploaded-file-name flex items-center gap-3">
+                        <img src="/images/icons8-microsoft-excel-2019-48.png" alt="Excel icon" class="w-8 h-8">
+                        <span class="text-gray-800 truncate">{{ uploadedFile.name }}</span>
+                    </div>
+                    <button mat-icon-button (click)="onCancel()" class="text-gray-500 hover:text-gray-700 m-1">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+
+                @if (isUploading) {
+                <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+                }
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- Planification Form -->
+    <div class="login-box">
+        <form [formGroup]="form">
+            <div class="input-container">
+                <label for="plantSectionId">Nom de PS</label>
+                <select formControlName="plantSectionId" id="plantSectionId">
+                    <option value="" disabled selected>Sélectionner une section</option>
+                    @for (plantsection of plantsections; track plantsection.id) {
+                    <option [value]="plantsection.id">{{ plantsection.plantsection_name }}</option>
+                    }
+                </select>
+                @if (form.get('plantSectionId')?.invalid && form.get('plantSectionId')?.touched) {
+                <small class="error">Ce champ est requis</small>
+                }
+            </div>
+
+            <div class="input-container">
+                <label for="week">Semaine (commence vendredi)</label>
+                <select formControlName="week" id="week" (change)="onWeekChange($event)">
+                    <option value="" disabled selected>Sélectionner une semaine</option>
+                    @for (week of weeks; track week.value) {
+                    <option [value]="week.value" [selected]="week.value === form.value.week">
+                        {{ week.display }}
+                    </option>
+                    }
+                </select>
+                @if (form.get('week')?.invalid && form.get('week')?.touched) {
+                <small class="error">Ce champ est requis</small>
+                }
+            </div>
+
+            <div class="input-container">
+                <label for="planningMode">Mode de Planification</label>
+                <select formControlName="planningMode" id="planningMode">
+                    @for (mode of planningModes; track mode.value) {
+                    <option [value]="mode.value">{{ mode.label }}</option>
+                    }
+                </select>
+                @if (form.get('planningMode')?.invalid && form.get('planningMode')?.touched) {
+                <small class="error">Ce champ est requis</small>
+                }
+            </div>
+
+            <div class="checkbox-container">
+                <label class="checkbox-label">
+                    <input type="checkbox" formControlName="isDelegated" (change)="onDelegatedChange()">
+                    {{ 'DELEGATED_PLANNING' | translate }}
+                </label>
+            </div>
+
+            @if (showRhManagerSelect) {
+            <div class="input-container">
+                <label for="rhManagerId">{{ 'RH-RESPONSABLE' | translate }}</label>
+                <select formControlName="rhManagerId" id="rhManagerId">
+                    <option value="" disabled selected>{{ 'RH-RESPONSABLE' | translate }}</option>
+                    @for (rhManager of rhManagers; track rhManager.id) {
+                    <option [value]="rhManager.id">
+                        {{ rhManager.firstName }} {{ rhManager.lastName }}
+                    </option>
+                    }
+                </select>
+                @if (form.get('rhManagerId')?.invalid && form.get('rhManagerId')?.touched) {
+                <small class="error">{{ 'RH_RESPONSABLE_REQUIRED' | translate }}</small>
+                }
+            </div>
+            }
+        </form>
+
+        <div class="button-container">
+            <button type="button" class="btn-add" (click)="onSubmit()" [disabled]="isUploading">
+                @if (isUploading) {
+                <span>Envoi en cours...</span>
+                } @else {
+                {{ 'SAVE' | translate }}
+                }
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<!-- add-new-shifts.component.html -->
+<div class="login-box p-5">
+  @if (message) {
+    <div class="notification" [class.error]="isError" [class.success]="!isError">
+      <span>{{ message | translate }}</span>
+      <button (click)="clearMessage()">✕</button>
+    </div>
+  }
+  
+  <h1>{{ 'ADD_NEW_SHIFT.TITLE' | translate }}</h1>
+  
+  <div class="input-container">
+    <label for="startTime">{{ 'ADD_NEW_SHIFT.START_TIME' | translate }}</label>
+    <input type="time" id="startTime" [(ngModel)]="startTime" class="form-control">
+  </div>
+  
+  <div class="input-container">
+    <label for="endTime">{{ 'ADD_NEW_SHIFT.END_TIME' | translate }}</label>
+    <input type="time" id="endTime" [(ngModel)]="endTime" class="form-control">
+  </div>
+  
+  <div class="input-container">
+    <label for="mood">{{ 'ADD_NEW_SHIFT.MOOD' | translate }}</label>
+    <select id="mood" [(ngModel)]="mood" class="form-control">
+      <option *ngFor="let moodOption of moods" [value]="moodOption.value">
+        {{ moodOption.label | translate }}
+      </option>
+    </select>
+  </div>
+  
+  <div class="button-container">
+    <button type="button" class="btn-add" (click)="onSubmit()" [disabled]="isLoading">
+      <span *ngIf="!isLoading">{{ 'ADD_NEW_SHIFT.SUBMIT' | translate }}</span>
+      <span *ngIf="isLoading">{{ 'LOADING' | translate }}</span>
+    </button>
+  </div>
+</div>

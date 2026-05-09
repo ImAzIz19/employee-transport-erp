@@ -1,0 +1,61 @@
+import { Routes } from '@angular/router';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { ForgetPasswordPageComponent } from './pages/forget-password-page/forget-password-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ExternalResourcesComponent } from './pages/externel-resources/externel-resources.component';
+import { AddEntityComponent } from '../app/components/shared/add-entity/add-entity.component';
+import { AuthGuard } from './utils/Auth-Guard';
+import { NoAuthGuard } from './utils/No-Auth-Guard';
+import { DetailsComponent } from './components/details/details.component';
+import { ModifyComponent } from './components/modify/modify.component';
+import { InternalResourcesComponent } from './pages/internal-resources/internal-resources.component';
+import { AddInternalResourcesEntityComponent } from './components/shared/add-internal-resources-entity/add-internal-resources-entity.component';
+import { ModifyInternalResourcesComponent } from './components/modify-internal-resources/modify-internal-resources.component';
+import { SimportComponent } from './components/simport/simport.component';
+import { ImportPlannificationComponent } from './pages/import-plannification/import-plannification.component';
+import { NewPlanificationComponent } from './components/new-planification/new-planification.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
+import { AddUserComponent } from './components/shared/add-user/add-user.component';
+import { GestionPlannificationComponent } from './pages/gestion-plannification/gestion-plannification.component';
+import { RoleManagementComponent } from './pages/role-management/role-management.component';
+import { AdministrationShiftsComponent } from './pages/administration-shifts/administration-shifts.component';
+import { ModifyUserComponent } from './components/modify-user/modify-user.component';
+import { ExonorContricutionsComponent } from './pages/exonor-contricutions/exonor-contricutions.component';
+import { CotisationsComponent } from './pages/cotisations/cotisations.component';
+import { FacturesComponent } from './pages/factures/factures.component';
+
+export const routes: Routes = [
+  { path: 'login', component: LoginPageComponent  , canActivate: [NoAuthGuard] },
+  { path: 'forget-password', component: ForgetPasswordPageComponent, },
+  { path: 'home', component: HomePageComponent , canActivate: [AuthGuard] },
+  { path: 'external-resources/:type', component: ExternalResourcesComponent },
+  { path: 'external-resources/:type/new', component: AddEntityComponent },
+  { path: 'external-resources/agencies/details/agency/:name', component: DetailsComponent, },
+  { path: 'external-resources/drivers/details/driver/:fullName', component: DetailsComponent, },
+  { path: 'external-resources/vehicles/details/vehicle/:referenceName', component: DetailsComponent, },
+  { path: 'external-resources/agencies/modify/agency/:id', component: ModifyComponent, },
+  { path: 'external-resources/drivers/modify/driver/:id', component: ModifyComponent, },
+  { path: 'external-resources/vehicles/modify/vehicle/:numDeReference', component: ModifyComponent, },
+  { path: 'internal-resources/:type', component: InternalResourcesComponent },
+  { path: 'internal-resources/:type/new', component: AddInternalResourcesEntityComponent },
+  { path: 'internal-resources/plantsections/details/plantsection/:plantsection_name', component: DetailsComponent, },
+  { path: 'internal-resources/plantsections/modify/plantsection/:id', component: ModifyInternalResourcesComponent, },
+  { path: 'internal-resources/segments/modify/segment/:id', component: ModifyInternalResourcesComponent, },
+  { path: 'internal-resources/employees/modify/employee/:id', component: ModifyInternalResourcesComponent, },
+  { path: 'internal-resources/paths/modify/path/:id', component: ModifyInternalResourcesComponent, },
+  { path: 'internal-resources/stations/modify/station/:id', component: ModifyInternalResourcesComponent, },
+  { path: 'internal-resources/:type/import', component: SimportComponent, },
+  { path: 'planification/importDePlannification', component: ImportPlannificationComponent },
+  { path: 'planification/GestionPlannification', component: GestionPlannificationComponent },
+  { path: 'planification/importDePlannification/new', component: NewPlanificationComponent },
+  { path: 'contribution/employeesexemptedfromcontrib', component: ExonorContricutionsComponent },
+  { path: 'contribution/export', component: CotisationsComponent },
+  { path: 'billing/bills', component: FacturesComponent },
+  { path: 'admin/users', component: UserManagementComponent },
+  { path: 'admin/users/new', component: AddUserComponent },
+  { path: 'users/edit/:id', component: ModifyUserComponent },
+  { path: 'admin/rolespermissions', component: RoleManagementComponent },
+  { path: 'admin/workshifts', component: AdministrationShiftsComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' },
+];

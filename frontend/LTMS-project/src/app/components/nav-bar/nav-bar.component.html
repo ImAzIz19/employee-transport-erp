@@ -1,0 +1,164 @@
+<div class="flex flex-col lg:flex-row lg:items-center justify-between p-6 bg-corporateBlue">
+  <!-- Header & Logo -->
+  <div class="flex items-center">
+    <img src="images/logo.png" alt="Logo" class="h-5 md:h-10" />
+    <button (click)="toggleMenu()" class="lg:hidden text-white focus:outline-none ml-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Main Navigation -->
+  <div [ngClass]="{ 'hidden': !isMenuOpen, 'flex': isMenuOpen }"
+       class="flex-col lg:flex lg:flex-row items-start lg:items-center lg:space-x-8 mt-5 lg:mt-0 space-y-3 lg:space-y-0 text-sm lg:text-base">
+
+    <a routerLink="/home" class="text-white hover:text-gray-300">
+      {{ 'TABLEAU-DE-BORD' | translate }}
+    </a>
+
+    <a routerLink="/org-settings" class="text-white hover:text-gray-300 cursor-pointer">
+      {{ 'ORG-SETTINGS' | translate }}
+    </a>
+
+    <!-- RESSOURCES EXTERNES -->
+    <div class="relative">
+      <p class="text-white hover:text-gray-300 flex items-center cursor-pointer text-sm lg:text-base"
+         (click)="toggleDropdown('external')">
+        {{ 'RESS-EXTERNES' | translate }}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="#e8eaed" viewBox="0 -960 960 960">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+      <div *ngIf="isDropdownOpen('external')" class="absolute w-56 bg-corporateBlue shadow-lg mt-1 z-10 border border-white">
+        <a routerLink="/external-resources/agencies" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'AGENCES' | translate }}
+        </a>
+        <a routerLink="/external-resources/vehicles" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'VEHICULES' | translate }}
+        </a>
+        <a routerLink="/external-resources/drivers" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'CHAUFF' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- RESSOURCES INTERNES -->
+    <div class="relative">
+      <p class="text-white hover:text-gray-300 flex items-center cursor-pointer text-sm lg:text-base"
+         (click)="toggleDropdown('internal')">
+        {{ 'RESS-INTERNES' | translate }}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="#e8eaed" viewBox="0 -960 960 960">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+      <div *ngIf="isDropdownOpen('internal')" class="absolute w-56 bg-corporateBlue shadow-lg mt-1 z-10 border border-white">
+        <a routerLink="/internal-resources/plantsection" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'PS' | translate }}
+        </a>
+        <a routerLink="/internal-resources/segment" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'SEGMENTS' | translate }}
+        </a>
+        <a routerLink="/internal-resources/employee" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'EMPLOYES' | translate }}
+        </a>
+        <a routerLink="/internal-resources/path" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'CIRCUITS' | translate }}
+        </a>
+        <a routerLink="/internal-resources/station" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'STATIONS' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- PLANIFICATION -->
+    <div class="relative">
+      <p class="text-white hover:text-gray-300 flex items-center cursor-pointer text-sm lg:text-base"
+         (click)="toggleDropdown('planning')">
+        {{ 'PLANIFICATION' | translate }}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="#e8eaed" viewBox="0 -960 960 960">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+      <div *ngIf="isDropdownOpen('planning')" class="absolute w-56 bg-corporateBlue shadow-lg mt-1 z-10 border border-white">
+        <a routerLink="/planification/importDePlannification" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          Import Planification
+        </a>
+        <a routerLink="/planification/GestionPlannification" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'PLANNING_MANAGEMENT' | translate }}
+        </a>
+        <a class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'P-EVENNEMENTIELLE' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- COTISATION -->
+    <div class="relative">
+      <p class="text-white hover:text-gray-300 flex items-center cursor-pointer text-sm lg:text-base"
+         (click)="toggleDropdown('cotisation')">
+        {{ 'COTISATION' | translate }}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="#e8eaed" viewBox="0 -960 960 960">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+      <div routerLink="/contribution/export" *ngIf="isDropdownOpen('cotisation')" class="absolute w-56 bg-corporateBlue shadow-lg mt-1 z-10 border border-white">
+        <a class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'COTISATION' | translate }}
+        </a>
+        <a routerLink="/contribution/employeesexemptedfromcontrib" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'EXONORATION-DES-CONTRIBUTIONS' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- FACTURES -->
+    <a routerLink="/billing/bills" class="text-white hover:text-gray-300 cursor-pointer text-sm lg:text-base">
+      {{ 'FACTURES' | translate }}
+    </a>
+
+    <!-- ADMINISTRATION -->
+    <div class="relative">
+      <p class="text-white hover:text-gray-300 flex items-center cursor-pointer text-sm lg:text-base"
+         (click)="toggleDropdown('admin')">
+        {{ 'ADMINISTRATION' | translate }}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="#e8eaed" viewBox="0 -960 960 960">
+          <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+        </svg>
+      </p>
+      <div *ngIf="isDropdownOpen('admin')" class="absolute w-56 bg-corporateBlue shadow-lg mt-1 z-10 border border-white">
+        <a routerLink="/admin/users" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'USER_MANAGEMENT' | translate }}
+        </a>
+        <a routerLink="/admin/rolespermissions" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'ROLE_MANAGEMENT' | translate }}
+        </a>
+        <a routerLink="/admin/workshifts" class="block px-4 py-2 text-white hover:bg-sky-800 text-sm">
+          {{ 'WORK_SHIFTS' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile User Info -->
+    <div class="lg:hidden flex items-center text-white mt-2 text-sm">
+      <span class="mr-2">Aziz Habibi</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="#e8eaed" viewBox="0 -960 960 960">
+        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Desktop User Info & Logout -->
+  <div class="hidden lg:flex items-center space-x-4 text-sm">
+    <div>
+      <p class="text-white">Aziz Habibi</p>
+      <p class="text-white">Org Name</p>
+    </div>
+    <span class="text-white cursor-pointer" (click)="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="#e8eaed" viewBox="0 -960 960 960">
+        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+      </svg>
+    </span>
+  </div>
+</div>
